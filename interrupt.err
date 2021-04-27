@@ -1,0 +1,5 @@
+>>> Warning 203 "interrupt.c" Line 76(1,1): Condition always TRUE
+>>> Warning 214 "interrupt.c" Line 82(1,1): Operator precedance rules may not be as intended, use () to clarify
+      Memory usage:   ROM=2%      RAM=2% - 2%
+      0 Errors,  2 Warnings.
+Build Successful.

@@ -1,0 +1,21 @@
+ÀÄinterrupt
+   ÃÄMAIN  0/148  Ram=3
+   ³  ÃÄ@cinit1  (Inline)  Ram=0
+   ³  ÃÄcheckTimer  0/26  Ram=0
+   ³  ÃÄdisplay  0/86  Ram=1
+   ³  ³  ÃÄ@DIV88  0/40  Ram=3
+   ³  ³  ÃÄ@const657  0/36  Ram=0
+   ³  ³  ÃÄ@delay_ms1  0/38  Ram=1
+   ³  ³  ÃÄ@DIV88  0/40  Ram=3
+   ³  ³  ÃÄ@const657  0/36  Ram=0
+   ³  ³  ÀÄ@delay_ms1  0/38  Ram=1
+   ³  ÃÄdisplay  0/86  Ram=1
+   ³  ³  ÀÄ*
+   ³  ÃÄdisplay  0/86  Ram=1
+   ³  ³  ÀÄ*
+   ³  ÃÄdisplay  0/86  Ram=1
+   ³  ³  ÀÄ*
+   ³  ÃÄcheckTimer  0/26  Ram=0
+   ³  ÀÄdisplay  0/86  Ram=1
+   ³     ÀÄ*
+   ÀÄmodeSelection  0/8  Ram=0

@@ -1,0 +1,95 @@
+000     @SCRATCH
+001     @SCRATCH
+001     _RETURN_
+002     @SCRATCH
+003     @SCRATCH
+004     @INTERRUPT_AREA
+005     @INTERRUPT_AREA
+006     @INTERRUPT_AREA
+007     @INTERRUPT_AREA
+008     @INTERRUPT_AREA
+009     @INTERRUPT_AREA
+00A     @INTERRUPT_AREA
+00B     @INTERRUPT_AREA
+00C     @INTERRUPT_AREA
+00D     @INTERRUPT_AREA
+00E     @INTERRUPT_AREA
+00F     @INTERRUPT_AREA
+010     @INTERRUPT_AREA
+011     @INTERRUPT_AREA
+012     @INTERRUPT_AREA
+013     @INTERRUPT_AREA
+014     @INTERRUPT_AREA
+015     @INTERRUPT_AREA
+016     t0
+017.0   dem
+018     MAIN.i
+019     @delay_ms1.P1
+019     @DIV88.P2
+019     display.@SCRATCH1
+019     MAIN.@SCRATCH1
+01A     @DIV88.P1
+01A     MAIN.@SCRATCH2
+01B     @DIV88.@SCRATCH1
+01B     MAIN.@SCRATCH3
+F83     PSP_DATA
+FB4.6   C1OUT
+FB4.7   C2OUT
+FBB     CCP_2
+FBB     CCP_2_LOW
+FBC     CCP_2_HIGH
+FBE     CCP_1
+FBE     CCP_1_LOW
+FBF     CCP_1_HIGH
+FE1-FE2 @READ_PACKED_MEMORY.P1
+FE1-FE2 @WRITE_PACKED_MEMORY.P2
+FE9-FEA @READ_PROGRAM_MEMORY.P1
+FE9-FEA @READ_PACKED_MEMORY.P2
+FE9-FEA @WRITE_PROGRAM_MEMORY.P3
+FE9-FEA @WRITE_PACKED_MEMORY.P4
+FF6-FF8 @READ_PROGRAM_MEMORY.P1
+FF6-FF8 @WRITE_PROGRAM_MEMORY.P2
+
+ROM Allocation:
+000096  number.call
+0000B0  number.data
+0000BA  modeSelection
+0000C2  checkTimer
+0000DC  @DIV88
+000104  @delay_ms1
+00012A  display
+000180  @cinit1
+000180  MAIN
+000194  @cinit2
+
+Project Directory:
+    D:\DoAnVDK\Interrupt\
+
+Project Files:
+    interrupt.c                                             [26-Apr-21 04:27  CRC=B2E194FF]
+    C:\Program Files (x86)\PICC\Devices\18F4520.h           [12-Nov-13 14:35  CRC=30BAB57A]
+
+Source signature=1456FFF3
+
+Units:
+    interrupt (main)
+
+Compiler Settings:
+    Processor:      PIC18F4520
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    XREF file:   interrupt.xsym
+    Errors:      interrupt.err
+    Ext Symbols: interrupt.esym
+    INHX32:      interrupt.hex
+    Symbols:     interrupt.sym
+    List:        interrupt.lst
+    Debug/COFF:  interrupt.cof
+    Project:     interrupt.ccspjt
+    Call Tree:   interrupt.tre
+    Statistics:  interrupt.STA
