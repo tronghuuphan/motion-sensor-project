@@ -2,21 +2,24 @@
 
 #fuses NOWDT, HS, PUT, NOPROTECT, NOLVP
 #use delay(crystal=20000000)
-#byte    portd    =  0xff83
-#byte    portc    =  0xff82
-#byte    porta    =  0xff80
-#bit     sensor   =  porta.4
+#byte    porta             =  0xff80
+#byte    portc             =  0xff82
+#byte    portd             =  0xff83
 
-#bit     status   =  portc.6
+#bit     sensor            =  porta.4
 
-#bit     led_mode =  portc.5
-#bit     led_alarm=  portc.3
-#bit     relay    =  portc.2
-#bit     tens     =  portc.1
-#bit     units    =  portc.0
+#bit     units             =  portc.0
+#bit     tens              =  portc.1
 
+#bit     green_led         =  portc.2
+#bit     yellow_led        =  portc.3
+#bit     red_led           =  portc.4
+#bit     led_mode          =  portc.5
+#bit     control_button    =  portc.6
+#bit     relay             =  portc.7
 
-#bit tmr0on = 0xffd5.7
+#bit     tmr0on            =  0xffd5.7
+
 const unsigned char number[10]={
                                  0xc0,
                                  0xf9,
@@ -50,24 +53,34 @@ void display(){
    tens  = 1;
    units = 0;
    delay_ms(1);
+
 }
 
 void checkTimer(){
-   if (t0>80){
-      led_alarm = 1;
-   }
-   else{
-      led_alarm = 0;
-   }
-   if(t0>99){
-      t0 = 0;
-      set_timer0(0);
+   switch(t0){
+      case 25:
+         t0 = 0;
+         set_timer0(0);
+      case 0:
+         green_led = 1;
+         yellow_led = 0;
+         red_led = 0;
+         break;
+      case 15:
+         green_led = 0;
+         yellow_led = 1;
+         red_led = 0;
+         break;
+      case 19:
+         green_led = 0;
+         yellow_led = 0;
+         red_led = 1;
+         break;
    }
 }
-
 void main(){
    set_tris_d(0x00);
-   set_tris_c(0b11000000);
+   set_tris_c(0b01000000);
    set_tris_a(0xff);  
    setup_timer_0(T0_EXT_L_TO_H | T0_DIV_1);
    set_timer0(0);
@@ -88,16 +101,16 @@ void main(){
          tmr0on = 0; //Tam dung counter khi o che do Manual, su dung bien t0
          led_mode = 1;
          display();
-         if(status==1){
+         if(control_button==1){
             for (int8 i=0; i<=10;i++){display();}
-            if(status==1){
+            if(control_button==1){
                relay = ~relay;
                if(relay){
                   t0++;
                   checkTimer();
                   
                }
-               while(status==1){
+               while(control_button==1){
                   display();
                }
                }
