@@ -2,31 +2,30 @@
 
 #fuses NOWDT, HS, PUT, NOPROTECT, NOLVP
 #use delay(crystal=20000000)
-#byte    porta             =  0xff80
-#byte    portb             =  0xff81
-#byte    portc             =  0xff82
-#byte    portd             =  0xff83
+#byte    porta    =  0xff80
+#byte    portc    =  0xff82
+#byte    portd    =  0xff83
+
+#bit     sensor   =  porta.4
+
+#bit     units    =  portc.0
+#bit     tens     =  portc.1
+
+#bit     green_led= portc.2
+#bit     yellow_led=portc.3
+#bit     red_led  =portc.4
+#bit     led_mode =  portc.5
+//#bit     led_alarm=  portc.3
+#bit     control_button   =  portc.6
+#bit     relay    =  portc.7
+//#bit     relay    =  portc.2
 
 
 
-#bit     sensor            =  porta.4
 
-#bit     units             =  portc.0
-#bit     tens              =  portc.1
 
-#bit     green_led         =  portc.2
-#bit     yellow_led        =  portc.3
-#bit     red_led           =  portc.4
 
-#bit     led_mode          =  portc.5
-
-//#bit     control_button    =  portc.6
-#bit     control_button    =  portb.1
-
-#bit     relay             =  portc.7
-
-#bit     tmr0on            =  0xffd5.7
-
+#bit tmr0on = 0xffd5.7
 const unsigned char number[10]={
                                  0xc0,
                                  0xf9,
@@ -52,7 +51,8 @@ void display(){
    units = 1;
    tens  = 0;
    delay_ms(1);
-
+   delay_ms(5);
+   
    portd = number[t0/10];
    if(portd==number[0]){
       portd=0xff;
@@ -60,34 +60,27 @@ void display(){
    tens  = 1;
    units = 0;
    delay_ms(1);
+   delay_ms(5);
+
 }
 
 void checkTimer(){
-   switch(t0){
-      case 25:
-         t0 = 0;
-         set_timer0(0);
-      case 0:
-         green_led = 1;
-         yellow_led = 0;
-         red_led = 0;
-         break;
-      case 15:
-         green_led = 0;
-         yellow_led = 1;
-         red_led = 0;
-         break;
-      case 19:
-         green_led = 0;
-         yellow_led = 0;
-         red_led = 1;
-         break;
+//Dung switch case
+   if (t0>=15){
+      yellow_led = 1;
+   }
+   else{
+      yellow_led = 0;
+   } 
+   if(t0>99){
+      t0 = 0;
+      set_timer0(0);
    }
 }
+
 void main(){
-   set_tris_b(0xff); //Attention pin b0 for interrupt
    set_tris_d(0x00);
-   set_tris_c(0b01000000);
+   set_tris_c(0b11000000);
    set_tris_a(0xff);  
    setup_timer_0(T0_EXT_L_TO_H | T0_DIV_1);
    set_timer0(0);
@@ -114,7 +107,8 @@ void main(){
                relay = ~relay;
                if(relay){
                   t0++;
-                  checkTimer(); 
+                  checkTimer();
+                  
                }
                while(control_button==1){
                   display();
@@ -123,6 +117,7 @@ void main(){
          }    
           set_timer0(t0); //Set lai gia tri timer sau khi thoat khoi che do Manual
          }
+        
       }
    } 
 

@@ -85,7 +85,7 @@ void checkTimer(){
    }
 }
 void main(){
-   set_tris_b(0xff); //Attention pin b0 for interrupt
+   set_tris_b(0xff);
    set_tris_d(0x00);
    set_tris_c(0b01000000);
    set_tris_a(0xff);  

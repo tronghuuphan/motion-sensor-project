@@ -24,8 +24,8 @@
 016     t0
 017.0   dem
 018     MAIN.i
-019     @delay_ms1.P1
-019     @DIV88.P2
+019     @DIV88.P1
+019     @delay_ms1.P2
 019     display.@SCRATCH1
 019     MAIN.@SCRATCH1
 01A     @DIV88.P1
@@ -35,18 +35,18 @@
 F83     PSP_DATA
 FB4.6   C1OUT
 FB4.7   C2OUT
-FBB     CCP_2
 FBB     CCP_2_LOW
+FBB     CCP_2
 FBC     CCP_2_HIGH
 FBE     CCP_1
 FBE     CCP_1_LOW
 FBF     CCP_1_HIGH
 FE1-FE2 @READ_PACKED_MEMORY.P1
 FE1-FE2 @WRITE_PACKED_MEMORY.P2
-FE9-FEA @READ_PROGRAM_MEMORY.P1
-FE9-FEA @READ_PACKED_MEMORY.P2
-FE9-FEA @WRITE_PROGRAM_MEMORY.P3
-FE9-FEA @WRITE_PACKED_MEMORY.P4
+FE9-FEA @READ_PACKED_MEMORY.P1
+FE9-FEA @READ_PROGRAM_MEMORY.P2
+FE9-FEA @WRITE_PACKED_MEMORY.P3
+FE9-FEA @WRITE_PROGRAM_MEMORY.P4
 FF6-FF8 @READ_PROGRAM_MEMORY.P1
 FF6-FF8 @WRITE_PROGRAM_MEMORY.P2
 
@@ -55,21 +55,21 @@ ROM Allocation:
 0000B0  number.data
 0000BA  modeSelection
 0000C2  checkTimer
-0000DC  @DIV88
-000104  @delay_ms1
-00012A  display
-000180  @cinit1
-000180  MAIN
-000194  @cinit2
+0000F4  @DIV88
+00011C  @delay_ms1
+000142  display
+000198  @cinit1
+000198  MAIN
+0001AC  @cinit2
 
 Project Directory:
     D:\DoAnVDK\Interrupt\
 
 Project Files:
-    interrupt.c                                             [26-Apr-21 04:27  CRC=B2E194FF]
+    interrupt.c                                             [07-May-21 09:16  CRC=9692A6EC]
     C:\Program Files (x86)\PICC\Devices\18F4520.h           [12-Nov-13 14:35  CRC=30BAB57A]
 
-Source signature=1456FFF3
+Source signature=F80811E0
 
 Units:
     interrupt (main)

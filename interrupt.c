@@ -3,19 +3,34 @@
 #fuses NOWDT, HS, PUT, NOPROTECT, NOLVP
 #use delay(crystal=20000000)
 #byte    porta             =  0xff80
+#byte    portb             =  0xff81
 #byte    portc             =  0xff82
 #byte    portd             =  0xff83
 
-#bit     sensor            =  porta.4
 
+
+#bit     sensor            =  porta.4
+/*
 #bit     units             =  portc.0
 #bit     tens              =  portc.1
 
 #bit     green_led         =  portc.2
 #bit     yellow_led        =  portc.3
 #bit     red_led           =  portc.4
+*/
+
+#bit     units             =  portc.2
+#bit     tens              =  portc.3
+
+#bit     green_led         =  portc.0
+#bit     yellow_led        =  portc.1
+#bit     red_led           =  portc.4
+////////////////////////
 #bit     led_mode          =  portc.5
-#bit     control_button    =  portc.6
+
+//#bit     control_button    =  portc.6
+#bit     control_button    =  portb.1
+
 #bit     relay             =  portc.7
 
 #bit     tmr0on            =  0xffd5.7
@@ -45,7 +60,7 @@ void display(){
    units = 1;
    tens  = 0;
    delay_ms(1);
-   
+
    portd = number[t0/10];
    if(portd==number[0]){
       portd=0xff;
@@ -53,7 +68,6 @@ void display(){
    tens  = 1;
    units = 0;
    delay_ms(1);
-
 }
 
 void checkTimer(){
@@ -79,6 +93,7 @@ void checkTimer(){
    }
 }
 void main(){
+   set_tris_b(0xff); //Attention pin b0 for interrupt
    set_tris_d(0x00);
    set_tris_c(0b01000000);
    set_tris_a(0xff);  
@@ -107,8 +122,7 @@ void main(){
                relay = ~relay;
                if(relay){
                   t0++;
-                  checkTimer();
-                  
+                  checkTimer(); 
                }
                while(control_button==1){
                   display();
@@ -117,7 +131,6 @@ void main(){
          }    
           set_timer0(t0); //Set lai gia tri timer sau khi thoat khoi che do Manual
          }
-        
       }
    } 
 

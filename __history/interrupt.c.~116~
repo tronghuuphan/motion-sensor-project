@@ -3,8 +3,8 @@
 #fuses NOWDT, HS, PUT, NOPROTECT, NOLVP
 #use delay(crystal=20000000)
 #byte    porta             =  0xff80
-#byte    portb             =  0xff81
 #byte    portc             =  0xff82
+
 #byte    portd             =  0xff83
 
 
@@ -20,9 +20,7 @@
 
 #bit     led_mode          =  portc.5
 
-//#bit     control_button    =  portc.6
-#bit     control_button    =  portb.1
-
+#bit     control_button    =  portc.6
 #bit     relay             =  portc.7
 
 #bit     tmr0on            =  0xffd5.7
@@ -85,7 +83,6 @@ void checkTimer(){
    }
 }
 void main(){
-   set_tris_b(0xff); //Attention pin b0 for interrupt
    set_tris_d(0x00);
    set_tris_c(0b01000000);
    set_tris_a(0xff);  

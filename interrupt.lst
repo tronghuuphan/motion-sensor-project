@@ -1,16 +1,16 @@
-CCS PCH C Compiler, Version 5.015, 5967               26-Apr-21 04:27
+CCS PCH C Compiler, Version 5.015, 5967               07-May-21 09:16
 
                Filename:   D:\DoAnVDK\Interrupt\interrupt.lst
 
-               ROM used:   528 bytes (2%)
-                           Largest free fragment is 32236
+               ROM used:   556 bytes (2%)
+                           Largest free fragment is 32208
                RAM used:   27 (2%) at main() level
                            28 (2%) worst case
                Stack used: 3 locations (2 in main + 1 for interrupts)
                Stack size: 31
 
 *
-0000:  GOTO   0180
+0000:  GOTO   0198
 *
 0008:  MOVWF  04
 000A:  MOVFF  FD8,05
@@ -81,65 +81,75 @@ CCS PCH C Compiler, Version 5.015, 5967               26-Apr-21 04:27
 00B6:  DATA 82,F8
 00B8:  DATA 80,90
 *
-00DC:  MOVF   1A,W
-00DE:  CLRF   01
-00E0:  SUBWF  19,W
-00E2:  BC    00EA
-00E4:  MOVFF  19,00
-00E8:  BRA    0102
-00EA:  CLRF   00
-00EC:  MOVLW  08
-00EE:  MOVWF  1B
-00F0:  RLCF   19,F
-00F2:  RLCF   00,F
 00F4:  MOVF   1A,W
-00F6:  SUBWF  00,W
-00F8:  BTFSC  FD8.0
-00FA:  MOVWF  00
-00FC:  RLCF   01,F
-00FE:  DECFSZ 1B,F
-0100:  BRA    00F0
-0102:  RETURN 0
+00F6:  CLRF   01
+00F8:  SUBWF  19,W
+00FA:  BC    0102
+00FC:  MOVFF  19,00
+0100:  BRA    011A
+0102:  CLRF   00
+0104:  MOVLW  08
+0106:  MOVWF  1B
+0108:  RLCF   19,F
+010A:  RLCF   00,F
+010C:  MOVF   1A,W
+010E:  SUBWF  00,W
+0110:  BTFSC  FD8.0
+0112:  MOVWF  00
+0114:  RLCF   01,F
+0116:  DECFSZ 1B,F
+0118:  BRA    0108
+011A:  RETURN 0
 ....................  
 .................... #list 
 ....................  
 ....................  
 .................... #fuses NOWDT, HS, PUT, NOPROTECT, NOLVP 
 .................... #use delay(crystal=20000000) 
-0104:  CLRF   FEA
-0106:  MOVLW  19
-0108:  MOVWF  FE9
-010A:  MOVF   FEF,W
-010C:  BZ    0128
-010E:  MOVLW  06
-0110:  MOVWF  01
-0112:  CLRF   00
-0114:  DECFSZ 00,F
-0116:  BRA    0114
-0118:  DECFSZ 01,F
-011A:  BRA    0112
-011C:  MOVLW  7B
-011E:  MOVWF  00
-0120:  DECFSZ 00,F
-0122:  BRA    0120
-0124:  DECFSZ FEF,F
-0126:  BRA    010E
-0128:  RETURN 0
-.................... #byte    portd    =  0xff83 
-.................... #byte    portc    =  0xff82 
-.................... #byte    porta    =  0xff80 
-.................... #bit     sensor   =  porta.4 
-....................  
-.................... #bit     status   =  portc.6 
-....................  
-.................... #bit     led_mode =  portc.5 
-.................... #bit     led_alarm=  portc.3 
-.................... #bit     relay    =  portc.2 
-.................... #bit     tens     =  portc.1 
-.................... #bit     units    =  portc.0 
+011C:  CLRF   FEA
+011E:  MOVLW  19
+0120:  MOVWF  FE9
+0122:  MOVF   FEF,W
+0124:  BZ    0140
+0126:  MOVLW  06
+0128:  MOVWF  01
+012A:  CLRF   00
+012C:  DECFSZ 00,F
+012E:  BRA    012C
+0130:  DECFSZ 01,F
+0132:  BRA    012A
+0134:  MOVLW  7B
+0136:  MOVWF  00
+0138:  DECFSZ 00,F
+013A:  BRA    0138
+013C:  DECFSZ FEF,F
+013E:  BRA    0126
+0140:  RETURN 0
+.................... #byte    porta             =  0xff80 
+.................... #byte    portb             =  0xff81 
+.................... #byte    portc             =  0xff82 
+.................... #byte    portd             =  0xff83 
 ....................  
 ....................  
-.................... #bit tmr0on = 0xffd5.7 
+....................  
+.................... #bit     sensor            =  porta.4 
+....................  
+.................... #bit     units             =  portc.0 
+.................... #bit     tens              =  portc.1 
+....................  
+.................... #bit     green_led         =  portc.2 
+.................... #bit     yellow_led        =  portc.3 
+.................... #bit     red_led           =  portc.4 
+....................  
+.................... #bit     led_mode          =  portc.5 
+....................  
+.................... //#bit     control_button    =  portc.6 
+.................... #bit     control_button    =  portb.1 
+....................  
+.................... #bit     relay             =  portc.7 
+....................  
+.................... #bit     tmr0on            =  0xffd5.7 
+....................  
 .................... const unsigned char number[10]={ 
 ....................                                  0xc0, 
 ....................                                  0xf9, 
@@ -167,202 +177,224 @@ CCS PCH C Compiler, Version 5.015, 5967               26-Apr-21 04:27
 .................... void display(){ 
 ....................    portd = number[t0%10]; 
 *
-012A:  MOVFF  16,19
-012E:  MOVLW  0A
-0130:  MOVWF  1A
-0132:  RCALL  00DC
-0134:  CLRF   03
-0136:  MOVF   00,W
-0138:  MOVFF  FF2,19
-013C:  BCF    FF2.7
-013E:  RCALL  0096
-0140:  BTFSC  19.7
-0142:  BSF    FF2.7
-0144:  MOVWF  F83
+0142:  MOVFF  16,19
+0146:  MOVLW  0A
+0148:  MOVWF  1A
+014A:  RCALL  00F4
+014C:  CLRF   03
+014E:  MOVF   00,W
+0150:  MOVFF  FF2,19
+0154:  BCF    FF2.7
+0156:  RCALL  0096
+0158:  BTFSC  19.7
+015A:  BSF    FF2.7
+015C:  MOVWF  F83
 ....................    units = 1; 
-0146:  BSF    F82.0
+015E:  BSF    F82.0
 ....................    tens  = 0; 
-0148:  BCF    F82.1
+0160:  BCF    F82.1
 ....................    delay_ms(1); 
-014A:  MOVLW  01
-014C:  MOVWF  19
-014E:  RCALL  0104
-....................     
+0162:  MOVLW  01
+0164:  MOVWF  19
+0166:  RCALL  011C
+....................  
 ....................    portd = number[t0/10]; 
-0150:  MOVFF  16,19
-0154:  MOVLW  0A
-0156:  MOVWF  1A
-0158:  RCALL  00DC
-015A:  CLRF   03
-015C:  MOVF   01,W
-015E:  MOVFF  FF2,19
-0162:  BCF    FF2.7
-0164:  RCALL  0096
-0166:  BTFSC  19.7
-0168:  BSF    FF2.7
-016A:  MOVWF  F83
+0168:  MOVFF  16,19
+016C:  MOVLW  0A
+016E:  MOVWF  1A
+0170:  RCALL  00F4
+0172:  CLRF   03
+0174:  MOVF   01,W
+0176:  MOVFF  FF2,19
+017A:  BCF    FF2.7
+017C:  RCALL  0096
+017E:  BTFSC  19.7
+0180:  BSF    FF2.7
+0182:  MOVWF  F83
 ....................    if(portd==number[0]){ 
-016C:  MOVF   F83,W
-016E:  SUBLW  C0
-0170:  BNZ   0174
+0184:  MOVF   F83,W
+0186:  SUBLW  C0
+0188:  BNZ   018C
 ....................       portd=0xff; 
-0172:  SETF   F83
+018A:  SETF   F83
 ....................    }  
 ....................    tens  = 1; 
-0174:  BSF    F82.1
+018C:  BSF    F82.1
 ....................    units = 0; 
-0176:  BCF    F82.0
+018E:  BCF    F82.0
 ....................    delay_ms(1); 
-0178:  MOVLW  01
-017A:  MOVWF  19
-017C:  RCALL  0104
-017E:  RETURN 0
+0190:  MOVLW  01
+0192:  MOVWF  19
+0194:  RCALL  011C
+0196:  RETURN 0
 .................... } 
 ....................  
 .................... void checkTimer(){ 
-....................    if (t0>80){ 
+....................    switch(t0){ 
 *
 00C2:  MOVF   16,W
-00C4:  SUBLW  50
-00C6:  BC    00CC
-....................       led_alarm = 1; 
-00C8:  BSF    F82.3
+00C4:  XORLW  19
+00C6:  BZ    00D6
+00C8:  XORLW  19
+00CA:  BZ    00DC
+00CC:  XORLW  0F
+00CE:  BZ    00E4
+00D0:  XORLW  1C
+00D2:  BZ    00EC
+00D4:  BRA    00F2
+....................       case 25: 
+....................          t0 = 0; 
+00D6:  CLRF   16
+....................          set_timer0(0); 
+00D8:  CLRF   FD7
+00DA:  CLRF   FD6
+....................       case 0: 
+....................          green_led = 1; 
+00DC:  BSF    F82.2
+....................          yellow_led = 0; 
+00DE:  BCF    F82.3
+....................          red_led = 0; 
+00E0:  BCF    F82.4
+....................          break; 
+00E2:  BRA    00F2
+....................       case 15: 
+....................          green_led = 0; 
+00E4:  BCF    F82.2
+....................          yellow_led = 1; 
+00E6:  BSF    F82.3
+....................          red_led = 0; 
+00E8:  BCF    F82.4
+....................          break; 
+00EA:  BRA    00F2
+....................       case 19: 
+....................          green_led = 0; 
+00EC:  BCF    F82.2
+....................          yellow_led = 0; 
+00EE:  BCF    F82.3
+....................          red_led = 1; 
+00F0:  BSF    F82.4
+....................          break; 
 ....................    } 
-00CA:  BRA    00CE
-....................    else{ 
-....................       led_alarm = 0; 
-00CC:  BCF    F82.3
-....................    } 
-....................    if(t0>99){ 
-00CE:  MOVF   16,W
-00D0:  SUBLW  63
-00D2:  BC    00DA
-....................       t0 = 0; 
-00D4:  CLRF   16
-....................       set_timer0(0); 
-00D6:  CLRF   FD7
-00D8:  CLRF   FD6
-....................    } 
-00DA:  RETURN 0
+00F2:  RETURN 0
 .................... } 
-....................  
 .................... void main(){ 
 *
-0180:  CLRF   FF8
-0182:  BCF    FD0.7
-0184:  BSF    07.7
-0186:  BCF    17.0
-0188:  MOVF   FC1,W
-018A:  ANDLW  C0
-018C:  IORLW  0F
-018E:  MOVWF  FC1
-0190:  MOVLW  07
-0192:  MOVWF  FB4
+0198:  CLRF   FF8
+019A:  BCF    FD0.7
+019C:  BSF    07.7
+019E:  BCF    17.0
+01A0:  MOVF   FC1,W
+01A2:  ANDLW  C0
+01A4:  IORLW  0F
+01A6:  MOVWF  FC1
+01A8:  MOVLW  07
+01AA:  MOVWF  FB4
+....................    set_tris_b(0xff); 
+01AC:  MOVLW  FF
+01AE:  MOVWF  F93
 ....................    set_tris_d(0x00); 
-0194:  MOVLW  00
-0196:  MOVWF  F95
-....................    set_tris_c(0b11000000); 
-0198:  MOVLW  C0
-019A:  MOVWF  F94
+01B0:  MOVLW  00
+01B2:  MOVWF  F95
+....................    set_tris_c(0b01000000); 
+01B4:  MOVLW  40
+01B6:  MOVWF  F94
 ....................    set_tris_a(0xff);   
-019C:  MOVLW  FF
-019E:  MOVWF  F92
+01B8:  MOVLW  FF
+01BA:  MOVWF  F92
 ....................    setup_timer_0(T0_EXT_L_TO_H | T0_DIV_1); 
-01A0:  MOVLW  A8
-01A2:  MOVWF  FD5
+01BC:  MOVLW  A8
+01BE:  MOVWF  FD5
 ....................    set_timer0(0); 
-01A4:  CLRF   FD7
-01A6:  CLRF   FD6
+01C0:  CLRF   FD7
+01C2:  CLRF   FD6
 ....................    enable_interrupts(global); 
-01A8:  MOVLW  C0
-01AA:  IORWF  FF2,F
+01C4:  MOVLW  C0
+01C6:  IORWF  FF2,F
 ....................    enable_interrupts(int_ext_L2H); 
-01AC:  BSF    FF2.4
-01AE:  BSF    FF1.6
+01C8:  BSF    FF2.4
+01CA:  BSF    FF1.6
 ....................    while(1){ 
 ....................       tmr0on = 1; //Cho phep counter hoat dong 
-01B0:  BSF    FD5.7
+01CC:  BSF    FD5.7
 ....................       led_mode=0; //Led hien thi che do Auto/Manual 
-01B2:  BCF    F82.5
+01CE:  BCF    F82.5
 ....................       relay = 0; 
-01B4:  BCF    F82.2
+01D0:  BCF    F82.7
 ....................       t0 = get_timer0(); 
-01B6:  MOVF   FD6,W
-01B8:  MOVWF  16
+01D2:  MOVF   FD6,W
+01D4:  MOVWF  16
 ....................       checkTimer(); 
-01BA:  RCALL  00C2
+01D6:  RCALL  00C2
 ....................       while(sensor==1 & dem==0){ 
-01BC:  MOVLW  00
-01BE:  BTFSC  F80.4
-01C0:  MOVLW  01
-01C2:  MOVWF  1A
-01C4:  MOVLW  00
-01C6:  BTFSS  17.0
-01C8:  MOVLW  01
-01CA:  ANDWF  1A,W
-01CC:  BZ    01D4
+01D8:  MOVLW  00
+01DA:  BTFSC  F80.4
+01DC:  MOVLW  01
+01DE:  MOVWF  1A
+01E0:  MOVLW  00
+01E2:  BTFSS  17.0
+01E4:  MOVLW  01
+01E6:  ANDWF  1A,W
+01E8:  BZ    01F0
 ....................          relay = 1; 
-01CE:  BSF    F82.2
+01EA:  BSF    F82.7
 ....................          display(); 
-01D0:  RCALL  012A
-01D2:  BRA    01BC
+01EC:  RCALL  0142
+01EE:  BRA    01D8
 ....................       }   
 ....................       display(); 
-01D4:  RCALL  012A
+01F0:  RCALL  0142
 ....................       while(dem==1){ 
-01D6:  BTFSS  17.0
-01D8:  BRA    0210
+01F2:  BTFSS  17.0
+01F4:  BRA    022C
 ....................          tmr0on = 0; //Tam dung counter khi o che do Manual, su dung bien t0 
-01DA:  BCF    FD5.7
+01F6:  BCF    FD5.7
 ....................          led_mode = 1; 
-01DC:  BSF    F82.5
+01F8:  BSF    F82.5
 ....................          display(); 
-01DE:  RCALL  012A
-....................          if(status==1){ 
-01E0:  BTFSS  F82.6
-01E2:  BRA    0208
+01FA:  RCALL  0142
+....................          if(control_button==1){ 
+01FC:  BTFSS  F81.1
+01FE:  BRA    0224
 ....................             for (int8 i=0; i<=10;i++){display();} 
-01E4:  CLRF   18
-01E6:  MOVF   18,W
-01E8:  SUBLW  0A
-01EA:  BNC   01F2
-01EC:  RCALL  012A
-01EE:  INCF   18,F
-01F0:  BRA    01E6
-....................             if(status==1){ 
-01F2:  BTFSS  F82.6
-01F4:  BRA    0208
+0200:  CLRF   18
+0202:  MOVF   18,W
+0204:  SUBLW  0A
+0206:  BNC   020E
+0208:  RCALL  0142
+020A:  INCF   18,F
+020C:  BRA    0202
+....................             if(control_button==1){ 
+020E:  BTFSS  F81.1
+0210:  BRA    0224
 ....................                relay = ~relay; 
-01F6:  BTG    F82.2
+0212:  BTG    F82.7
 ....................                if(relay){ 
-01F8:  BTFSS  F82.2
-01FA:  BRA    0200
+0214:  BTFSS  F82.7
+0216:  BRA    021C
 ....................                   t0++; 
-01FC:  INCF   16,F
-....................                   checkTimer(); 
-01FE:  RCALL  00C2
-....................                    
+0218:  INCF   16,F
+....................                   checkTimer();  
+021A:  RCALL  00C2
 ....................                } 
-....................                while(status==1){ 
-0200:  BTFSS  F82.6
-0202:  BRA    0208
+....................                while(control_button==1){ 
+021C:  BTFSS  F81.1
+021E:  BRA    0224
 ....................                   display(); 
-0204:  RCALL  012A
-0206:  BRA    0200
+0220:  RCALL  0142
+0222:  BRA    021C
 ....................                } 
 ....................                } 
 ....................          }     
 ....................           set_timer0(t0); //Set lai gia tri timer sau khi thoat khoi che do Manual 
-0208:  CLRF   FD7
-020A:  MOVFF  16,FD6
-020E:  BRA    01D6
+0224:  CLRF   FD7
+0226:  MOVFF  16,FD6
+022A:  BRA    01F2
 ....................          } 
-0210:  BRA    01B0
-....................          
+022C:  BRA    01CC
 ....................       } 
 ....................    }  
 ....................  
-0212:  SLEEP 
+022E:  SLEEP 
 
 Configuration Fuses:
    Word  1: C200   HS FCMEN IESO

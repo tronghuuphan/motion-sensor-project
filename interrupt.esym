@@ -1,8 +1,8 @@
 d G "INT_HLVD" 1 837 "0x00A004"
-D G "__PCH__" 0 114 ""5.015""
-D G "__DEVICE__" 0 114 "4520"
-D G "__DATE__" 0 114 ""26-Apr-21""
-D G "__TIME__" 0 114 ""04:27:50"" "Standard Header file for the PIC18F4520 device ////////////////"
+D G "__PCH__" 0 130 ""5.015""
+D G "__DEVICE__" 0 130 "4520"
+D G "__DATE__" 0 130 ""07-May-21""
+D G "__TIME__" 0 130 ""09:16:50"" "Standard Header file for the PIC18F4520 device ////////////////"
 c L "set_tris_a" 1 3 6 "FUNCTION"
 v L "value" 1 43 "int8" `54 
 f B "set_tris_a" 1 43 "void(int8 value)" `53 
@@ -918,17 +918,18 @@ d G "INT_COMP" 1 834 "0x00A040"
 d G "INT_EEPROM" 1 835 "0x00A010"
 d G "INT_OSCF" 1 836 "0x00A080"
 d G "INT_HLVD" 1 837 "0x00A004"
-V G "number" 0 20 "[10]" `657 
-V G "t0" 0 33 "int8" `660 
-V G "dem" 0 34 "int1" `661 
-F G "modeSelection" 0 37 "void()" `662 
-F G "display" 0 40 "void()" `663 
-F G "checkTimer" 0 55 "void()" `667 
-F G "MAIN" 0 68 "void()" `668 
-C L "MAIN" 0 77 1 "FUNCTION"
-C L "MAIN" 0 77 1 "FUNCTION"
-C L "MAIN" 0 77 1 "FUNCTION"
-V L "i" 0 92 "int8" `671 
+C L "jump_to_irs" 0 23 1 "FUNCTION"
+V G "number" 0 30 "[10]" `660 
+V G "t0" 0 43 "int8" `663 
+V G "dem" 0 44 "int1" `664 
+F G "modeSelection" 0 47 "void()" `665 
+F G "display" 0 50 "void()" `666 
+F G "checkTimer" 0 65 "void()" `670 
+F G "MAIN" 0 87 "void()" `671 
+C L "MAIN" 0 23 1 "FUNCTION"
+C L "MAIN" 0 23 1 "FUNCTION"
+C L "MAIN" 0 23 1 "FUNCTION"
+V L "i" 0 112 "int8" `674 
 F B "reset_cpu" 0 0
 F B "abs" 1 0
 F B "sleep" 0 1
